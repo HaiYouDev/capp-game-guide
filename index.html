@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaesi Dream · Void Guide</title>
+    <meta name="description" content="Kaesi Dream tier list, character database, team comps, and gacha simulator. Free guide for new players.">
+    <meta name="keywords" content="Kaesi Dream, tier list, guide, characters, gacha, team comps">
+    <meta property="og:title" content="Kaesi Dream · Void Guide">
+    <meta property="og:description" content="Free tier list, character database, and team comps for Kaesi Dream.">
+    <meta property="og:url" content="https://haiyoudev.github.io/capp-game-guide/">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://haiyoudev.github.io/capp-game-guide/">
+    <style>
+        :root {
+            --bg: #0f0c1d;
+            --card-bg: rgba(23, 17, 43, 0.9);
+            --text: #e0d9f5;
+            --text-secondary: #b7adcf;
+            --border: #3a2f5e;
+            --primary: #b388ff;
+            --primary-glow: #7c4dff;
+            --t0: #f06292;
+            --t1: #ba68c8;
+            --t2: #64b5f6;
+            --radius: 18px;
+            --shadow: 0 4px 30px rgba(124, 77, 255, 0.2);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .light {
+            --bg: #f5f0ff;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text: #1e1535;
+            --text-secondary: #5a4e7a;
+            --border: #dcd0f5;
+            --shadow: 0 4px 20px rgba(124, 77, 255, 0.15);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height:1.6;
+            min-height:100vh;
+            transition: background 0.35s, color 0.35s;
+            background-image: radial-gradient(ellipse at 20% 20%, rgba(179,136,255,0.15) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 80%, rgba(240,98,146,0.1) 0%, transparent 50%);
+        }
+        /* navbar */
+        .navbar {
+            backdrop-filter:blur(20px);
+            background:var(--card-bg);
+            border-bottom:1px solid var(--border);
+            position:sticky; top:0; z-index:100; padding:0 20px;
+        }
+        .nav-inner {
+            max-width:1200px; margin:0 auto;
+            display:flex; align-items:center; justify-content:space-between;
+            height:64px; gap:12px;
+        }
+        .logo {
+            font-size:22px; font-weight:800;
+            background:linear-gradient(135deg, #b388ff, #f06292);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            cursor:pointer; letter-spacing:1px; user-select:none;
+        }
+        .nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+        .nav-link {
+            padding:8px 18px; border-radius:24px; border:1px solid transparent;
+            background:transparent; color:var(--text-secondary);
+            font-weight:500; font-size:14px; cursor:pointer;
+            transition:var(--transition); white-space:nowrap;
+        }
+        .nav-link.active {
+            background:rgba(179,136,255,0.15); border-color:var(--primary);
+            color:var(--primary); box-shadow:0 0 12px rgba(179,136,255,0.3);
+        }
+        .nav-link:hover:not(.active) { color:var(--text); background:rgba(179,136,255,0.08); }
+        .theme-btn {
+            background:none; border:1px solid var(--border); border-radius:50%;
+            width:38px; height:38px; font-size:18px; cursor:pointer;
+            color:var(--text); display:flex; align-items:center; justify-content:center;
+            transition:var(--transition);
+        }
+        .theme-btn:hover { background:rgba(179,136,255,0.15); }
+        /* main container */
+        .container { max-width:1200px; margin:0 auto; padding:30px 20px; }
+        .page { display:none; animation:fadeUp 0.35s ease; }
+        .page.active { display:block; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+        .card {
+            background:var(--card-bg); backdrop-filter:blur(12px);
+            border-radius:var(--radius); padding:24px;
+            border:1px solid var(--border); box-shadow:var(--shadow);
+            transition:var(--transition); position:relative; overflow:hidden;
+        }
+        .card::before {
+            content:''; position:absolute; top:0; left:0; width:100%; height:2px;
+            background:linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity:0.6;
+        }
+        .card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(124,77,255,0.3); }
+
+        .hero-section { text-align:center; padding:48px 20px 32px; }
+        .hero-title {
+            font-size:42px; font-weight:900;
+            background:linear-gradient(180deg, #fff, #b388ff);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            margin-bottom:12px;
+        }
+        .hero-sub { color:var(--text-secondary); font-size:18px; }
+        .tier-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; margin:32px 0; }
+        .tier-card { border-left:6px solid; }
+        .tier-card.t0 { border-left-color:var(--t0); }
+        .tier-card.t1 { border-left-color:var(--t1); }
+        .tier-card.t2 { border-left-color:var(--t2); }
+        .tier-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+        .tier-badge {
+            padding:4px 14px; border-radius:20px; font-weight:700; font-size:14px; color:#fff;
+        }
+        .t0 .tier-badge { background:linear-gradient(135deg, #f06292, #d81b60); }
+        .t1 .tier-badge { background:linear-gradient(135deg, #ba68c8, #8e24aa); }
+        .t2 .tier-badge { background:linear-gradient(135deg, #64b5f6, #1e88e5); }
+        .char-tags { display:flex; flex-wrap:wrap; gap:8px; }
+        .char-tag {
+            background:rgba(179,136,255,0.15); color:var(--primary);
+            padding:6px 16px; border-radius:20px; font-weight:500; font-size:14px;
+            border:1px solid rgba(179,136,255,0.3);
+        }
+
+        /* filter bar */
+        .filter-bar {
+            display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;
+            background:var(--card-bg); padding:16px; border-radius:14px; border:1px solid var(--border);
+        }
+        .filter-bar input, .filter-bar select {
+            padding:10px 16px; border-radius:10px; border:1px solid var(--border);
+            background:rgba(0,0,0,0.2); color:var(--text); font-size:14px;
+            outline:none; transition:var(--transition);
+        }
+        .filter-bar input:focus, .filter-bar select:focus { border-color:var(--primary); box-shadow:0 0 10px rgba(179,136,255,0.3); }
+        .char-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:20px; }
+        .char-card .fav-btn {
+            position:absolute; top:12px; right:12px; background:none; border:none;
+            font-size:24px; cursor:pointer; color:#555; transition:color 0.2s, transform 0.2s;
+            z-index:2; text-shadow:0 0 8px rgba(0,0,0,0.5);
+            aria-label="Toggle favorite";
+        }
+        .char-card .fav-btn.faved { color:#ffd54f; transform:scale(1.2); text-shadow:0 0 12px #ffd54f; }
+        .char-name { font-size:20px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+        .char-rarity {
+            font-size:12px; padding:2px 10px; border-radius:12px;
+            background:rgba(179,136,255,0.2); color:var(--primary);
+        }
+        .char-meta { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+        .meta-tag {
+            font-size:12px; padding:4px 12px; border-radius:14px;
+            background:rgba(255,255,255,0.05); border:1px solid var(--border);
+        }
+        .char-desc { color:var(--text-secondary); font-size:13px; margin-top:8px; }
+        .char-source { margin-top:10px; font-size:12px; color:var(--text-secondary); opacity:0.8; }
+
+        .team-grid { display:grid; gap:20px; }
+        .team-name { font-size:24px; font-weight:700; margin-bottom:8px; }
+        .team-members { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+        .copy-btn {
+            background:linear-gradient(135deg, #b388ff, #7c4dff);
+            border:none; color:#fff; padding:10px 22px; border-radius:24px;
+            cursor:pointer; font-weight:600; transition:var(--transition);
+            box-shadow:0 4px 15px rgba(124,77,255,0.3);
+        }
+        .copy-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(124,77,255,0.5); }
+
+        .gacha-box {
+            background:var(--card-bg); border-radius:var(--radius); padding:32px;
+            text-align:center; border:1px solid var(--border); margin-top:40px;
+        }
+        .gacha-btn {
+            background:linear-gradient(135deg, #ff8a65, #f06292);
+            border:none; color:#fff; font-size:18px; font-weight:700;
+            padding:14px 40px; border-radius:30px; cursor:pointer;
+            transition:var(--transition); box-shadow:0 6px 20px rgba(240,98,146,0.4);
+            margin:8px;
+        }
+        .gacha-btn:hover { transform:scale(1.03); box-shadow:0 10px 30px rgba(240,98,146,0.6); }
+        .gacha-result { min-height:32px; font-size:20px; margin-top:20px; font-weight:600; }
+
+        .toast {
+            position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+            background:#1e1535; color:#fff; padding:12px 24px; border-radius:30px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.4); z-index:999;
+            opacity:0; transition:opacity 0.3s; pointer-events:none;
+            border:1px solid var(--primary);
+        }
+        .toast.show { opacity:1; }
+
+        footer { text-align:center; padding:24px; color:var(--text-secondary); font-size:13px; border-top:1px solid var(--border); margin-top:40px; }
+        footer a { color:var(--primary); text-decoration:none; }
+        @media (max-width:640px) {
+            .hero-title { font-size:28px; }
+            .filter-bar { flex-direction:column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="logo" onclick="switchPage('home')">🌌 Void Guide</div>
+            <div class="nav-links">
+                <button class="nav-link active" data-page="home" aria-label="Tier List page">📊 Tier List</button>
+                <button class="nav-link" data-page="characters" aria-label="Characters page">📚 Characters</button>
+                <button class="nav-link" data-page="teams" aria-label="Teams page">⚔️ Teams</button>
+                <button class="nav-link" data-page="favorites" aria-label="Favorites page">⭐ Favorites</button>
+            </div>
+            <button class="theme-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle dark/light mode">🌓</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home: Tier List + Gacha -->
+        <div class="page active" id="page-home">
+            <div class="hero-section">
+                <div class="hero-title">Void Rift · Launch Tier List</div>
+                <div class="hero-sub">Global server verified strength · Must-read for new players</div>
+            </div>
+            <div class="tier-grid" id="tierContainer"></div>
+            <div class="gacha-box">
+                <h3 style="margin-bottom:16px;">🎲 Void Summon · Gacha Simulator</h3>
+                <button class="gacha-btn" onclick="singlePull()">Single Pull (300 Crystals)</button>
+                <button class="gacha-btn" onclick="multiPull()">10× Pull (3000 Crystals)</button>
+                <div class="gacha-result" id="gachaResult"></div>
+                <p style="color:var(--text-secondary);font-size:12px;margin-top:8px;">* Simulated rates: SSR 8%, SR 42%, R 50%. For entertainment only.</p>
+            </div>
+        </div>
+
+        <!-- Characters page -->
+        <div class="page" id="page-characters">
+            <h2 style="margin-bottom:20px;">📚 Void Archives</h2>
+            <div class="filter-bar">
+                <input type="text" id="searchInput" placeholder="🔍 Search name or skill..." oninput="renderCharacterGrid()" aria-label="Search characters">
+                <select id="rarityFilter" onchange="renderCharacterGrid()" aria-label="Filter by rarity">
+                    <option value="全部">All Rarities</option>
+                    <option value="SSR">SSR</option>
+                    <option value="SR">SR</option>
+                    <option value="R">R</option>
+                </select>
+                <select id="attrFilter" onchange="renderCharacterGrid()" aria-label="Filter by element">
+                    <option value="全部">All Elements</option>
+                    <option value="Fire">Fire</option>
+                    <option value="Water">Water</option>
+                    <option value="Wind">Wind</option>
+                    <option value="Light">Light</option>
+                    <option value="Dark">Dark</option>
+                </select>
+            </div>
+            <div class="char-grid" id="charGrid"></div>
+        </div>
+
+        <!-- Teams page -->
+        <div class="page" id="page-teams">
+            <h2 style="margin-bottom:20px;">⚔️ Abyss Team Comps</h2>
+            <div class="team-grid" id="teamGrid"></div>
+        </div>
+
+        <!-- Favorites page -->
+        <div class="page" id="page-favorites">
+            <h2 style="margin-bottom:20px;">⭐ My Void Collection</h2>
+            <div class="char-grid" id="favGrid"></div>
+            <div style="text-align:center;padding:48px;color:var(--text-secondary);display:none;" id="favEmpty">
+                No favorites yet. Go star some characters! ✨
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><a href="#" onclick="showPrivacy()">Privacy Policy</a></p>
+        <p style="margin-top:8px;">Kaesi Dream Void Guide © 2026</p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== Game Data ====================
+        const characters = [
+            { name:"Mika", rarity:"SSR", attr:"Light", role:"Support/Healer", tier:"T0", desc:"Party revive and sustained healing, essential for Void Abyss.", source:"Standard Banner" },
+            { name:"Meiling", rarity:"SSR", attr:"Water", role:"DPS/Control", tier:"T0", desc:"High freeze uptime, queen of crowd control, fits any team.", source:"Standard Banner" },
+            { name:"Veronica", rarity:"SSR", attr:"Dark", role:"Single-target Burst", tier:"T0", desc:"Cursed blade stacks, highest single-target damage ceiling.", source:"Limited Banner (est. Phase 2)" },
+            { name:"Kalipe", rarity:"SSR", attr:"Light", role:"Tank/Support", tier:"T1", desc:"Core of Double Shield comp, offense and defense in one.", source:"Standard Banner" },
+            { name:"Magna", rarity:"SSR", attr:"Fire", role:"Tank", tier:"T1", desc:"Reflect shield, pairs well with Meiling for control kills.", source:"Standard Banner" },
+            { name:"Theresa", rarity:"SR", attr:"Wind", role:"DPS", tier:"T1", desc:"Part of Heal-Blade-Wolf comp, provides stable wind damage.", source:"Standard Banner" },
+            { name:"Rolf", rarity:"SR", attr:"Dark", role:"DPS", tier:"T1", desc:"Free starter unit, smooth early game progression.", source:"Tutorial" },
+            { name:"Yuki", rarity:"SR", attr:"Water", role:"Support", tier:"T2", desc:"Cycle deck enabler, needs specific build to shine.", source:"Standard Banner" },
+            { name:"Emil", rarity:"R", attr:"Fire", role:"DPS", tier:"T2", desc:"Early game filler, falls off later.", source:"Standard Banner" }
+        ];
+
+        const teams = [
+            { name:"Heal-Blade-Wolf", desc:"Highest Abyss clear rate in current patch.", members:["Mika","Theresa","Rolf"], tip:"Dual DPS + revive support, manage skill rotation carefully." },
+            { name:"Double Shield Control", desc:"Rock-solid for high-pressure stages.", members:["Kalipe","Magna","Meiling"], tip:"Meiling provides freeze control while tanks alternate shields." },
+            { name:"Yuki Cycle Deck", desc:"High-skill cap fun comp.", members:["Yuki","Veronica","Mika"], tip:"Rapid cycling via Inspiration keywords to unleash burst." }
+        ];
+
+        // ==================== State ====================
+        let favorites = [];
+        try {
+            const stored = localStorage.getItem('kaesi_fav');
+            if (stored) favorites = JSON.parse(stored);
+            if (!Array.isArray(favorites)) favorites = [];
+        } catch(e) { favorites = []; }
+        function saveFav() {
+            try { localStorage.setItem('kaesi_fav', JSON.stringify(favorites)); } catch(e) {}
+        }
+        function isFaved(name) { return favorites.includes(name); }
+        function toggleFav(name) {
+            const idx = favorites.indexOf(name);
+            if (idx > -1) favorites.splice(idx, 1);
+            else favorites.push(name);
+            saveFav();
+            renderCharacterGrid();
+            renderFavorites();
+        }
+
+        // ==================== Page switching ====================
+        function switchPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.page === page) btn.classList.add('active');
+            });
+            if (page === 'home') renderTiers();
+            if (page === 'characters') renderCharacterGrid();
+            if (page === 'teams') renderTeams();
+            if (page === 'favorites') renderFavorites();
+        }
+        document.querySelectorAll('.nav-link').forEach(btn => {
+            btn.addEventListener('click', () => switchPage(btn.dataset.page));
+        });
+        document.querySelector('.logo').addEventListener('click', () => switchPage('home'));
+
+        // ==================== Tier list ====================
+        function renderTiers() {
+            const container = document.getElementById('tierContainer');
+            if (!container) return;
+            const tiers = { T0:[], T1:[], T2:[] };
+            characters.forEach(c => tiers[c.tier].push(c));
+            container.innerHTML = Object.entries(tiers).map(([tier, chars]) => `
+                <div class="card tier-card ${tier.toLowerCase()}">
+                    <div class="tier-header">
+                        <span class="tier-badge">${tier}</span>
+                        <span style="color:var(--text-secondary);">Tier</span>
+                    </div>
+                    <div class="char-tags">
+                        ${chars.map(c => `<span class="char-tag">${escapeHTML(c.name)}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== Character grid ====================
+        function renderCharacterGrid() {
+            const search = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+            const rarity = document.getElementById('rarityFilter')?.value || '全部';
+            const attr = document.getElementById('attrFilter')?.value || '全部';
+            const filtered = characters.filter(c => {
+                const matchSearch = !search || c.name.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search);
+                const matchRarity = rarity === '全部' || c.rarity === rarity;
+                const matchAttr = attr === '全部' || c.attr === attr;
+                return matchSearch && matchRarity && matchAttr;
+            });
+            const grid = document.getElementById('charGrid');
+            if (!grid) return;
+            grid.innerHTML = filtered.map(c => `
+                <div class="card char-card">
+                    <button class="fav-btn ${isFaved(c.name)?'faved':''}" onclick="toggleFav('${escapeHTML(c.name)}')" aria-label="Toggle favorite for ${escapeHTML(c.name)}">★</button>
+                    <div class="char-name">
+                        ${escapeHTML(c.name)}
+                        <span class="char-rarity">${escapeHTML(c.rarity)}</span>
+                    </div>
+                    <div class="char-meta">
+                        <span class="meta-tag">${escapeHTML(c.attr)}</span>
+                        <span class="meta-tag">${escapeHTML(c.role)}</span>
+                        <span class="meta-tag" style="color:#ffd54f;">${escapeHTML(c.tier)}</span>
+                    </div>
+                    <div class="char-desc">${escapeHTML(c.desc)}</div>
+                    <div class="char-source">📥 ${escapeHTML(c.source)}</div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== Teams ====================
+        function renderTeams() {
+            const grid = document.getElementById('teamGrid');
+            if (!grid) return;
+            grid.innerHTML = teams.map(t => `
+                <div class="card">
+                    <div class="team-name">${escapeHTML(t.name)}</div>
+                    <p style="color:var(--text-secondary);">${escapeHTML(t.desc)}</p>
+                    <div class="team-members">
+                        ${t.members.map(m => `<span class="char-tag">${escapeHTML(m)}</span>`).join('')}
+                    </div>
+                    <p style="margin:10px 0;font-style:italic;">💡 ${escapeHTML(t.tip)}</p>
+                    <button class="copy-btn" onclick="copyTeam('${escapeHTML(t.name)}: ${t.members.join(', ')} — ${escapeHTML(t.tip)}')">📋 Copy Team</button>
+                </div>
+            `).join('');
+        }
+
+        function copyTeam(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✅ Team copied to clipboard!');
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try { document.execCommand('copy'); showToast('✅ Team copied!'); } catch(e) { showToast('❌ Copy failed, please copy manually'); }
+            document.body.removeChild(textarea);
+        }
+
+        // ==================== Favorites ====================
+        function renderFavorites() {
+            const grid = document.getElementById('favGrid');
+            const empty = document.getElementById('favEmpty');
+            if (!grid || !empty) return;
+            const favChars = characters.filter(c => favorites.includes(c.name));
+            if (favChars.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+            grid.innerHTML = favChars.map(c => `
+                <div class="card char-card">
+                    <button class="fav-btn faved" onclick="toggleFav('${escapeHTML(c.name)}')" aria-label="Remove favorite for ${escapeHTML(c.name)}">★</button>
+                    <div class="char-name">${escapeHTML(c.name)} <span class="char-rarity">${escapeHTML(c.rarity)}</span></div>
+                    <div class="char-meta">
+                        <span class="meta-tag">${escapeHTML(c.attr)}</span>
+                        <span class="meta-tag">${escapeHTML(c.role)}</span>
+                    </div>
+                    <div class="char-desc">${escapeHTML(c.desc)}</div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== Gacha ====================
+        let crystal = 10000;
+        function singlePull() { pull(1); }
+        function multiPull() { pull(10); }
+        function pull(times) {
+            const cost = times * 300;
+            if (crystal < cost) {
+                showToast('💎 Not enough crystals!');
+                return;
+            }
+            crystal -= cost;
+            const results = [];
+            const pool = [
+                { name:'Mika', rarity:'SSR', emoji:'🌟', rate:0.03 },
+                { name:'Meiling', rarity:'SSR', emoji:'💧', rate:0.05 },
+                { name:'Veronica', rarity:'SSR', emoji:'🌑', rate:0.05 },
+                { name:'Theresa', rarity:'SR', emoji:'🍃', rate:0.17 },
+                { name:'Rolf', rarity:'SR', emoji:'🐺', rate:0.20 },
+                { name:'Yuki', rarity:'SR', emoji:'💠', rate:0.25 },
+                { name:'Emil', rarity:'R', emoji:'🔥', rate:0.50 }
+            ];
+            for (let i=0; i<times; i++) {
+                const roll = Math.random();
+                let selected = pool[pool.length-1];
+                let cum = 0;
+                for (const item of pool) {
+                    cum += item.rate;
+                    if (roll < cum) { selected = item; break; }
+                }
+                results.push(selected);
+            }
+            const div = document.getElementById('gachaResult');
+            if (div) {
+                div.innerHTML = results.map(r => `${r.emoji} ${r.name} (${r.rarity})`).join('<br>');
+            }
+            showToast(`Spent ${cost} crystals, ${crystal} remaining`);
+        }
+
+        // ==================== Theme ====================
+        const themeToggle = document.getElementById('themeToggle');
+        function setTheme(isLight) {
+            document.body.classList.toggle('light', isLight);
+            themeToggle.textContent = isLight ? '🌙' : '🌓';
+            try { localStorage.setItem('kaesi_theme', isLight ? 'light' : 'dark'); } catch(e) {}
+        }
+        themeToggle.addEventListener('click', () => {
+            setTheme(!document.body.classList.contains('light'));
+        });
+        (function() {
+            try {
+                const stored = localStorage.getItem('kaesi_theme');
+                if (stored === 'light') setTheme(true);
+                else setTheme(false);
+            } catch(e) { setTheme(false); }
+        })();
+
+        // ==================== Toast ====================
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._tid);
+            t._tid = setTimeout(() => t.classList.remove('show'), 2000);
+        }
+
+        // ==================== Privacy Policy ====================
+        function showPrivacy() {
+            const policy = `Privacy Policy for Kaesi Dream Void Guide\n\nLast updated: 2026-05-11\n\n1. Information We Collect\nWe use Baidu Analytics to collect anonymous usage data, including page views, visit duration, and traffic sources. No personal identifiable information is collected.\n\n2. Cookies\nThis site does not use cookies for tracking purposes. Baidu Analytics may use cookies for statistical purposes.\n\n3. Third-Party Services\nWe use Baidu Analytics to understand website traffic. Their privacy policy can be found on the Baidu website.\n\n4. Contact\nIf you have any questions, please contact us at: your-email@example.com`;
+            alert(policy);
+        }
+
+        // ==================== Utility: escape HTML ====================
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+        // ==================== Init ====================
+        renderTiers();
+        renderTeams();
+    </script>
+</body>
+</html>
